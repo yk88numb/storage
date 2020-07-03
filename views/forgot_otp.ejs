@@ -1,0 +1,67 @@
+
+<style>
+    .otp{
+        border: 2px solid green;
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .otp-resend{
+        border: 2px solid goldenrod;
+        margin: 5px;
+        padding: 10px;
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+<div class="row mt-5">
+    <div class="col-md-6 m-auto">
+      <div class="card card-body">
+        <h1 class="text-center mb-3"> <i class="fas fa-sign-in-alt"></i></h1>
+        <form action="/verifyotp" method="POST">
+            <% if (message!="") { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <%= message %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <% } %>
+            <center><div class="otp">  
+                <div>   
+                <h4>
+                    Enter your OTP which we sent to your email
+                </h4>
+                
+                    <input type="text" name="otp" style="border: 1px solid green;width: 85%;height: 35px;"/><br>
+                    <input type="hidden" name="email" id="i2" /><br>
+                    <button type="submit" class="btn btn-success" >Change password</button>
+                </div>
+            </div></center>
+        </form>
+           
+        
+        <form action="/forgot" method="POST">
+            <center><div class="otp-resend">
+                <h4>Didn't get OTP? </h4>
+                <input type="hidden" id="i1" name="email"  /><br>
+                <button type="submit" class="btn btn-secondary">Resend OTP</button>
+            </div></center>
+        </form>
+                    
+      </div>
+    </div>
+  </div>
+  <script>
+    let email="<%= email %>"
+    document.getElementById("i1").value=email
+    document.getElementById("i2").value=email
+</script>

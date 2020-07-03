@@ -1,0 +1,53 @@
+<div class="row mt-5">
+    <div class="col-md-5 m-auto">
+        <div class="card card-body">
+            <% if(message) { %>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <%= message %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <% } %>
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <h5 id="h5">There is nothing! Select a file to upload</h5>
+                <input type="file" name="myImage" onchange="getFileData(this)"/>
+                <br> <button type="submit" class="btn btn-primary m-2" disabled id="btn1" onclick="fn1()" >Upload</button>
+                <!-- <button  class="btn btn-primary m-2" disabled id="btn2">Upload</button> -->
+            </form>
+            <script>
+
+                //document.getElementById("btn1").style.visibility="hidden"
+
+                function getFileData(myFile){
+                    var file = myFile.files[0];  
+                    var filename = file.name;
+                    if(filename){
+                        document.getElementById("btn1").disabled=false
+                    }
+
+                    // if(filename!==""){
+                    //     document.getElementById("h5").style.color="red"
+                    //     document.getElementById("h5").innerHTML="Choose the same file you checked for availability"
+                    //     document.getElementById("btn1").style.visibility="hidden"
+                    // }else{
+                    //     document.getElementById("h5").style.color="black"
+                    //     document.getElementById("h5").innerHTML=""
+                    //     document.getElementById("btn1").style.visibility="visible"
+                    //     document.getElementById("btn2").style.visibility="hidden"
+                    // }
+                }
+
+                function fn1(){
+                    document.getElementById("load1").innerHTML="Uploading..."
+                    document.getElementById("load2").className="spinner-border text-primary"
+                }
+            </script>
+            
+            <h4 id="load1"></h4>
+            <div id="load2" class="" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+        </div>
+    </div>
+</div>

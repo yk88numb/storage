@@ -1,0 +1,50 @@
+<h1 class="mt-4">Registration successful</h1>
+<p class="alert alert-warning alert-dismissible fade show" id="ph">Verification required! We have sent an verification link to
+    your E-mail. Please open your E-mail to get verification link</p>
+<form action="/resend" method="POST">
+    <input type="hidden" value="<%= email %>" name="email" />
+    <h6><b>00:</b><b id="time">30</b></h6>
+    <button class="btn btn-secondary" id="btn1" disabled>Resend E-mail</button>
+</form><br>
+<br>
+<br>
+<form action="/deleteverification" method="POST">
+    <p class="alert alert-danger alert-dismissible fade show">No! I no need to verify my account. Need to create a new one</p>
+    <input type="hidden" value="<%= email %>" name="email" />
+    <button class="btn btn-danger" type="submit">Create new account</button>
+</form>
+<script>
+    let send="<%= send %>"
+    console.log("send",send)
+    if(send){
+        document.getElementById("ph").innerText="Your account is still not verified! Please open your E-mail to get verification link"
+        document.getElementById("btn1").disabled=false
+        document.getElementById("btn1").click()
+        document.getElementById("btn1").disabled=true
+    }
+
+
+
+    let time = 30
+    var myVar = setInterval(myTimer, 1000);
+
+    function myTimer() {
+        time -= 1
+        if(time<10){
+            time1="0"+time
+        }else{
+            time1=time
+        }
+        document.getElementById("time").innerHTML = time1
+        if (time == 0) myStopFunction()
+    }
+
+    function myStopFunction() {
+        clearInterval(myVar);
+    }
+
+
+    setTimeout(() => {
+        document.getElementById("btn1").disabled = false
+    }, 30000)
+</script>
