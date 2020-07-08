@@ -251,26 +251,32 @@
             <% } %>
             <div>
             <form action="users/logout" method="GET">
-                <button type="submit" class="btn btn-secondary">Logout</button><b class="btn btn-warning"><%= email %> </b>
+                <button type="submit" class="btn btn-secondary">Logout</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b class="btn btn-warning"><%= email %> </b>
+            </form><br>
+            <form action="/downloadtoserver" method="GET">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Save to documentstore by link</button>
             </form>
+            
+
             <form action="/locker" method="POST">
                 <h1>Select file which you want to download or delete</h1>
-                
-                <% for(i=0;i<n;i++) { %>
+                <input type="hidden" name="name" id="dwnldinput" />
+                <button style="visibility: hidden;" id="download" type="submit" >download</button> </form>
+            <% for(i=0;i<n;i++) { %>
                 <div class="inputGroup">
                     <input id="<%= i %>" name="name" type="radio" class="hii" onclick="fn1()"  value="<%= file[i] %>" />
                     <label for="<%= i %>"><%= file[i] %></label>
                 </div>
-                <% } %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                 <button id="download" onclick="downloading()" type="submit"  disabled class="btn btn-primary">download</button> 
+                <% } %> &nbsp;&nbsp;
+                 <button disabled onclick="downloading()" id="dwnld" class="btn btn-primary" >Download</button>
                  
-                 &nbsp;&nbsp;
                 <a href="#myModal" class="trigger-btn" data-toggle="modal"><button id="delete" disabled class="btn btn-danger">Delete</button> </a>
-            </form>
-            <form action="/view" method="POST" class="frm">
-                <input type="hidden" id="i1" name="name"  />
-                <button id="view" disabled onclick="loading()" class="btn btn-success" type="submit">View</button>
-            </form>
+                
+                <a href="#myModal1" class="trigger-btn" data-toggle="modal"><button disabled  id="rename" class="btn btn-secondary">Rename</button> </a>
+            
+                
+                <button disabled onclick="loading()" id="viewbtn" class="btn btn-success">View</button>
+            
             <p class="lead mt-4">Upload a Document? <a href="/upload">Upload Document</a></p>
             <p class="lead mt-4">Change password? <a href="/change">Change password</a></p>
         </div>
@@ -286,13 +292,16 @@
             if(c) {
                 document.getElementById("delete").disabled=false
                 document.getElementById("download").disabled=false
-                document.getElementById("view").disabled=false
+                document.getElementById("viewbtn").disabled=false
+                document.getElementById("rename").disabled=false
+                document.getElementById("dwnld").disabled=false
                 fn2(i)
             }
         }                        
     }
 
     function downloading(){
+        document.getElementById("download").click()
         document.getElementById("down").innerHTML="Downloading..."
         document.querySelector(".no-down").className="down"
         document.querySelector(".no-backdrop").className="backdrop"
@@ -304,6 +313,7 @@
     }
 
     function loading(){
+        document.getElementById("view").click()
         document.getElementById("down").innerHTML="Loading..."
         document.querySelector(".no-down").className="down"
         document.querySelector(".no-backdrop").className="backdrop"
@@ -313,7 +323,40 @@
         document.querySelector(".backdrop").className="no-backdrop"
         },3000)
     }
+
+    
 </script>
+
+<div class="modal" id="myModal1" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><center>Enter new name</center> </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        
+          <form action="/rename" method="POST">
+            <div class="modal-body">
+                <input type="text" name="newname" />
+                <input type="text" id="extension" name="extension" />
+              </div>
+              <div class="modal-footer">            
+            <input type="hidden" id="oldname" name="oldname" />
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
   <div id="myModal" class="modal fade" id="ab">
 	<div class="modal-dialog modal-confirm">
 		<div class="modal-content">
@@ -337,6 +380,13 @@
                     function fn2(id){
                         document.getElementById("i1").value=document.getElementById(id).value
                         document.getElementById("name").value=document.getElementById(id).value
+                        document.getElementById("renameid").value=document.getElementById(id).value
+                        document.getElementById("dwnldinput").value=document.getElementById(id).value
+                        document.getElementById("oldname").value=document.getElementById(id).value
+                        let filename=document.getElementById(id).value;
+                        let pos=filename.lastIndexOf(".")
+                        let extension=filename.slice(pos,filename.length)
+                        document.getElementById("extension").value=extension
                         document.getElementById("p1").innerHTML=`Do you really want to Delete ${document.getElementById("name").value}`
                     }
                 </script>
@@ -346,3 +396,11 @@
 		</div>
 	</div>
 </div>
+<form action="/rename" method="GET">
+    <input type="hidden" name="rename" id="renameid" />
+    <button id="btnrename" type="submit" style="border: 0;margin: 0; visibility: hidden;"></button>
+</form>
+<form action="/view" method="POST" class="frm">
+    <input type="hidden" id="i1" name="name"  />
+    <button id="view" style="border: 0;margin: 0; visibility: hidden;" type="submit"></button>
+</form>
