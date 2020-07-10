@@ -257,11 +257,8 @@
                 <button type="submit" class="btn btn-primary btn-lg btn-block">Save to documentstore by link</button>
             </form>
             
-
-            <form action="/locker" method="POST">
-                <h1>Select file which you want to download or delete</h1>
-                <input type="hidden" name="name" id="dwnldinput" />
-                <button style="visibility: hidden;" id="download" type="submit" >download</button> </form>
+            <h3>Select file which you want to download or delete</h3>
+            
             <% for(i=0;i<n;i++) { %>
                 <div class="inputGroup">
                     <input id="<%= i %>" name="name" type="radio" class="hii" onclick="fn1()"  value="<%= file[i] %>" />
@@ -403,4 +400,8 @@
 <form action="/view" method="POST" class="frm">
     <input type="hidden" id="i1" name="name"  />
     <button id="view" style="border: 0;margin: 0; visibility: hidden;" type="submit"></button>
+</form>
+<form action="/locker" method="POST">                
+    <input type="hidden" name="name" id="dwnldinput" />
+    <button style="visibility: hidden;" id="download" type="submit" >download</button> 
 </form>
