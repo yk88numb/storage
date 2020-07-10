@@ -1,6 +1,6 @@
 <h1 class="mt-4">Registration successful</h1>
 <p class="alert alert-warning alert-dismissible fade show" id="ph">Verification required! We have sent an verification link to
-    your E-mail. Please open your E-mail to get verification link</p>
+    your E-mail. Please open your E-mail to get verification link <b style="color: black; font-weight: bold;">(<%= email %>)</b></p>
 <form action="/resend" method="POST">
     <input type="hidden" value="<%= email %>" name="email" />
     <h6><b>00:</b><b id="time">30</b></h6>
